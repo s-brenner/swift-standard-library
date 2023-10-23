@@ -85,10 +85,7 @@ extension Sequence {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
-    @available(iOS 13.0, *)
-    @available(tvOS 13.0, *)
-    @available(macOS 10.15, *)
-    @available(watchOS 6.0, *)
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func concurrentMap<T>(_ transform: @escaping (Element) async throws -> T) async throws -> [T] {
         let tasks = map { element in
             Task { try await transform(element) }
@@ -103,5 +100,17 @@ extension Sequence {
         for element in self {
             try await operation(element)
         }
+    }
+    
+    /// - Author: Scott Brenner | SBStandardLibrary
+    public func reduce<Result>(
+        into initialResult: Result,
+        _ updateAccumulatingResult: (inout Result, Element) async throws -> ()
+    ) async rethrows -> Result {
+        var initialResult = initialResult
+        for element in self {
+            try await updateAccumulatingResult(&initialResult, element)
+        }
+        return initialResult
     }
 }
