@@ -76,6 +76,7 @@ extension Sequence {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func asyncMap<T>(_ transform: (Element) async throws -> T) async rethrows -> [T] {
         var values = [T]()
         for element in self {
@@ -96,6 +97,7 @@ extension Sequence {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func asyncForEach(_ operation: (Element) async throws -> Void) async rethrows {
         for element in self {
             try await operation(element)
@@ -103,6 +105,7 @@ extension Sequence {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func reduce<Result>(
         into initialResult: Result,
         _ updateAccumulatingResult: (inout Result, Element) async throws -> ()
