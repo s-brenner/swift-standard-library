@@ -57,4 +57,14 @@ final class StringExtensionsTests: XCTestCase {
         
         XCTAssertTrue("012345678".contains(only: .numeric - .allCharactersIn("9")))
     }
+    
+    func testComponentsWithMaximumLength() {
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 1), ["A", "B", "C", "D", "E", "F"])
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 2), ["AB", "CD", "EF"])
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 3), ["ABC", "DEF"])
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 4), ["ABCD", "EF"])
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 5), ["ABCDE", "F"])
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 6), ["ABCDEF"])
+        XCTAssertEqual("ABCDEF".components(withMaximumLength: 7), ["ABCDEF"])
+    }
 }

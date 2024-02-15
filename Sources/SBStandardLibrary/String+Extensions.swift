@@ -127,7 +127,8 @@ extension String {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
-    public func components(withMaxLength length: Int) -> [String] {
+    /// - Parameter length: The maximum length of each component of the output. Must not be zero.
+    public func components(withMaximumLength length: Int) -> [String] {
         stride(from: 0, to: self.count, by: length).map {
             let start = self.index(self.startIndex, offsetBy: $0)
             let end = self.index(start, offsetBy: length, limitedBy: self.endIndex) ?? self.endIndex
