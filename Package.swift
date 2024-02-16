@@ -7,8 +7,21 @@ let package = Package(
     products: [
         .library(name: "SBStandardLibrary", targets: ["SBStandardLibrary"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/pointfreeco/swift-identified-collections", from: "1.0.0"),
+    ],
     targets: [
-        .target(name: "SBStandardLibrary"),
-        .testTarget(name: "SBStandardLibraryTests", dependencies: ["SBStandardLibrary"]),
+        .target(
+            name: "SBStandardLibrary",
+            dependencies: [
+                .product(name: "IdentifiedCollections", package: "swift-identified-collections"),
+            ]
+        ),
+        .testTarget(
+            name: "SBStandardLibraryTests",
+            dependencies: [
+                "SBStandardLibrary",
+            ]
+        ),
     ]
 )
