@@ -61,4 +61,16 @@ extension RangeReplaceableCollection {
     public func appending(_ newElements: Self) -> Self {
         self + newElements
     }
+    
+
+    /// Returns a collection without all the elements that satisfy the given predicate.
+    /// - Author: Scott Brenner | SBStandardLibrary
+    /// - Parameter shouldBeRemoved: A closure that takes an element of the sequence as its argument and returns a Boolean value indicating whether the element should be removed from the collection.
+    /// - Returns: A collection wihtout the elements that satisfy the given predicate.
+    /// - Complexity: O(n), where n is the length of the collection.
+    public func removingAll(where shouldBeRemoved: (Element) throws -> Bool ) rethrows -> Self {
+        var output = self
+        try output.removeAll(where: shouldBeRemoved)
+        return output
+    }
 }
