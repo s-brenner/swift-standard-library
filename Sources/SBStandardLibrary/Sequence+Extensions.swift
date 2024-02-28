@@ -7,7 +7,8 @@ extension Sequence {
     /// - Complexity: O(n), where n is the length of the sequence.
     /// - Parameter keyPath: The numeric property to sum.
     /// - Returns: The sum of the values of a given numeric property within this sequence.
-    public func sum<T: Numeric>(for keyPath: KeyPath<Element, T>) -> T {
+    public func sum<T>(for keyPath: KeyPath<Element, T>) -> T
+    where T: Numeric {
         reduce(0) { sum, element in
             sum + element[keyPath: keyPath]
         }
@@ -26,7 +27,8 @@ extension Sequence {
     /// - Author: Scott Brenner | SBStandardLibrary
     /// - Complexity: O(m + n), where n is the length of this sequence and m is the length of the result.
     /// - Returns: An array containing the `non-nil`elements  of this sequence.
-    public func compact<T>() -> [T] where Element == Optional<T> {
+    public func compact<T>() -> [T]
+    where Element == Optional<T> {
         compactMap { $0 }
     }
     
@@ -36,7 +38,8 @@ extension Sequence {
     /// - Parameter keyPath: The comparable property by which to sort to the sequence.
     /// - Parameter ascending: The order in which to sort the sequence.
     /// - Returns: An array of sorted elements.
-    public func sorted<T: Comparable>(by keyPath: KeyPath<Element, T>, ascending: Bool = true) -> [Element] {
+    public func sorted<T>(by keyPath: KeyPath<Element, T>, ascending: Bool = true) -> [Element]
+    where T: Comparable {
         sorted { a, b in
             let aa = a[keyPath: keyPath]
             let bb = b[keyPath: keyPath]
@@ -77,17 +80,21 @@ extension Sequence {
     
     /// - Author: Scott Brenner | SBStandardLibrary
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-    public func asyncMap<T>(_ transform: (Element) async throws -> T) async rethrows -> [T] {
-        var values = [T]()
-        for element in self {
-            try await values.append(transform(element))
+    @_disfavoredOverload
+    public func asyncMap<ElementOfResult>(
+        _ transform: (Element) async throws -> ElementOfResult
+    ) async rethrows -> [ElementOfResult] {
+        try await reduce(into: [ElementOfResult]()) { collection, element in
+            try await collection.append(transform(element))
         }
-        return values
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
+    @available(*, deprecated)
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-    public func concurrentMap<T>(_ transform: @escaping (Element) async throws -> T) async throws -> [T] {
+    public func concurrentMap<ElementOfResult>(
+        _ transform: @escaping (Element) async throws -> ElementOfResult
+    ) async throws -> [ElementOfResult] {
         let tasks = map { element in
             Task { try await transform(element) }
         }
