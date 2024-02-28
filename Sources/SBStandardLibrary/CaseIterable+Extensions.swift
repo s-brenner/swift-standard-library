@@ -19,3 +19,12 @@ extension CaseIterable where AllCases.Element: Equatable {
     }
 }
 #endif
+
+#if canImport(IdentifiedCollections) && (os(iOS) || os(macOS) || os(watchOS) || os(tvOS))
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension CaseIterable where Self: Identifiable {
+    
+    /// - Author: Scott Brenner | SBStandardLibrary
+    public static var identifiedAllCases: IdentifiedArrayOf<Self> { IdentifiedArrayOf(uniqueElements: allCases) }
+}
+#endif

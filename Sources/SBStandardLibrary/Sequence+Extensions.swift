@@ -117,3 +117,31 @@ extension Sequence {
         return initialResult
     }
 }
+
+#if canImport(IdentifiedCollections)
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension Sequence where Element: Identifiable {
+    
+    /// - Author: Scott Brenner | SBStandardLibrary
+    public func asyncMap<ElementOfResult>(
+        _ transform: (Element) async throws -> ElementOfResult
+    ) async rethrows -> IdentifiedArrayOf<ElementOfResult>
+    where ElementOfResult: Identifiable {
+        try await reduce(into: IdentifiedArrayOf<ElementOfResult>()) { collection, element in
+            try await collection.append(transform(element))
+        }
+    }
+    
+    /// - Author: Scott Brenner | SBStandardLibrary
+    public func asyncCompactMap<ElementOfResult>(
+        _ transform: (Element) async throws -> ElementOfResult?
+    ) async rethrows -> IdentifiedArrayOf<ElementOfResult>
+    where ElementOfResult: Identifiable {
+        try await reduce(into: IdentifiedArrayOf<ElementOfResult>()) { collection, element in
+            if let transformed = try await transform(element) {
+                collection.append(transformed)
+            }
+        }
+    }
+}
+#endif
