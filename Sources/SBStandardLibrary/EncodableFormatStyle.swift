@@ -30,6 +30,7 @@ where T: Encodable {
 extension Encodable {
     
     /// - Author: Scott Brenner | SBStandardLibrary
+    @_disfavoredOverload
     public func formatted(_ style: EncodableFormatStyle<Self> = .prettyPrintedJSON) -> String {
         style.format(self)
     }
