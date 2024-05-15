@@ -1,8 +1,12 @@
 import Foundation
 
+/// Conform to this protocol and `Encodable` to be able to use `formatted(.prettyPrintedJSON)`.
 /// - Author: Scott Brenner | SBStandardLibrary
-public struct EncodableFormatStyle<T>: Foundation.FormatStyle
-where T: Encodable {
+public protocol JSONFormattable { }
+
+/// - Author: Scott Brenner | SBStandardLibrary
+public struct JSONFormatStyle<T>: Foundation.FormatStyle
+where T: JSONFormattable & Encodable {
     
     public enum Style: Codable {
         case prettyPrintedJSON
@@ -14,7 +18,7 @@ where T: Encodable {
         self.style = style
     }
     
-    public static var prettyPrintedJSON: Self { Self(style: .prettyPrintedJSON) }
+    public static var prettyPrintedJSON: Self { JSONFormatStyle(style: .prettyPrintedJSON) }
     
     public func format(_ value: T) -> String {
         switch style {
@@ -27,11 +31,11 @@ where T: Encodable {
     }
 }
 
-extension Encodable {
+extension Encodable
+where Self: JSONFormattable {
     
     /// - Author: Scott Brenner | SBStandardLibrary
-    @_disfavoredOverload
-    public func formatted(_ style: EncodableFormatStyle<Self> = .prettyPrintedJSON) -> String {
+    public func formatted(_ style: JSONFormatStyle<Self> = .prettyPrintedJSON) -> String {
         style.format(self)
     }
 }
