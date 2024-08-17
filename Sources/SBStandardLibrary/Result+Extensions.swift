@@ -33,3 +33,32 @@ extension Result {
         map(transform)
     }
 }
+
+extension Result: Codable
+where Success: Codable, Failure: Codable & Error {
+    
+    enum CodingKeys: String, CodingKey {
+        case success
+        case failure
+    }
+    
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .success(let success):
+            try container.encode(success, forKey: .success)
+        case .failure(let failure):
+            try container.encode(failure, forKey: .failure)
+        }
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        do {
+            self = .success(try container.decode(Success.self, forKey: .success))
+        }
+        catch {
+            self = .failure(try container.decode(Failure.self, forKey: .failure))
+        }
+    }
+}
