@@ -14,7 +14,7 @@ extension Data {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
-    public struct FormatStyle: Foundation.FormatStyle {
+    public struct FormatStyle: Foundation.FormatStyle, Sendable {
         
         enum Style: Codable, Hashable {
             case base64Encoded(Data.Base64EncodingOptions)
@@ -76,4 +76,4 @@ extension Data {
     }
 }
 
-extension Data.Base64EncodingOptions: Codable, Hashable { }
+extension Data.Base64EncodingOptions: Codable, @retroactive Hashable { }

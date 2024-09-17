@@ -3,7 +3,7 @@ import Foundation
 extension String {
     
     /// - Author: Scott Brenner | SBStandardLibrary
-    public struct FormatStyle: Foundation.FormatStyle {
+    public struct FormatStyle: Foundation.FormatStyle, Sendable {
         
         enum Style: Codable, Hashable {
             case base64Encoded(Encoding)

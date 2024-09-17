@@ -90,20 +90,6 @@ extension Sequence {
     }
     
     /// - Author: Scott Brenner | SBStandardLibrary
-    @available(*, deprecated)
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-    public func concurrentMap<ElementOfResult>(
-        _ transform: @escaping (Element) async throws -> ElementOfResult
-    ) async throws -> [ElementOfResult] {
-        let tasks = map { element in
-            Task { try await transform(element) }
-        }
-        return try await tasks.asyncMap { task in
-            try await task.value
-        }
-    }
-    
-    /// - Author: Scott Brenner | SBStandardLibrary
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func asyncForEach(_ operation: (Element) async throws -> Void) async rethrows {
         for element in self {
