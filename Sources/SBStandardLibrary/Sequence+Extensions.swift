@@ -136,5 +136,12 @@ extension Sequence where Element: Identifiable {
             }
         }
     }
+    
+    /// You use this computed property to create an array when you have a sequence of elements with unique ids.
+    /// Passing a sequence with duplicate ids to this initializer results in a runtime error.
+    /// - Author: Scott Brenner | SBStandardLibrary
+    /// - Precondition: The sequence must not have duplicate ids.
+    /// - Complexity: Expected O(n) on average, where n is the count of elements, if ID implements high-quality hashing.
+    public var identifiedArray: IdentifiedArrayOf<Element> { IdentifiedArray(uniqueElements: self) }
 }
 #endif
