@@ -10,7 +10,8 @@ extension Comparable {
     }
 }
 
-extension Comparable where Self: SignedNumeric {
+extension Comparable
+where Self: SignedNumeric {
     
     /// Check if a number is negative.
     /// - Author: Scott Brenner | SBStandardLibrary

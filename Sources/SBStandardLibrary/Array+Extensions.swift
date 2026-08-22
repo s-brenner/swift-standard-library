@@ -11,6 +11,7 @@ extension Array {
     /// [Int]().overlappingPairs -> []
     /// ````
     /// - Author: Scott Brenner | SBStandardLibrary
+    @available(*, deprecated, message: "Use adjacentPairs in the Algorithms library instead")
     public var overlappingPairs: [[Element]] {
         stride(from: 0, to: count - 1, by: 1).map { [ self[$0], self[$0 + 1] ] }
     }

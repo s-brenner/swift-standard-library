@@ -76,4 +76,6 @@ extension Data {
     }
 }
 
-extension Data.Base64EncodingOptions: Codable, @retroactive Hashable { }
+extension Data.Base64EncodingOptions: @retroactive Codable { }
+
+extension Data.Base64EncodingOptions: @retroactive Hashable { }

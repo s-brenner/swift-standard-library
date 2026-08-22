@@ -34,7 +34,7 @@ extension Result {
     }
 }
 
-extension Result: Codable
+extension Result: @retroactive Codable
 where Success: Codable, Failure: Codable & Error {
     
     enum CodingKeys: String, CodingKey {

@@ -137,4 +137,6 @@ extension String {
     }
 }
 
-extension String.Encoding: Codable { }
+extension String.Encoding: @retroactive Decodable { }
+
+extension String.Encoding: @retroactive Encodable { }

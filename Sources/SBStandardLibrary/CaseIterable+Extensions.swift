@@ -1,5 +1,6 @@
 #if os(iOS) || os(macOS) || os(watchOS) || os(tvOS)
-extension CaseIterable where AllCases.Element: Equatable {
+extension CaseIterable
+where AllCases.Element: Equatable {
     
     /// Returns the next element in the array of all cases.
     /// - Author: Scott Brenner | SBStandardLibrary
